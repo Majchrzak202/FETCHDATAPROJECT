@@ -14,7 +14,7 @@ const MovieList = ({ movies }) => {
           producer={movie.producer}
           releaseDate={movie.release_date}
           openingText={movie.opening_crawl}
-         
+          director={movie.director}
         />
       ))}
     </ul>
