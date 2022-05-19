@@ -4,7 +4,7 @@ import "./App.css";
 import AddMovie from "./components/AddMovie";
 
 const api = {
-  base: "https://swapi.dev/api/films/",
+  base: 'https://react-http-project-6ee84-default-rtdb.europe-west1.firebasedatabase.app/movies.json' /* "https://swapi.dev/api/films/" */,
 };
 
 function App() {
@@ -13,8 +13,8 @@ function App() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchMovies()
-  }, [])
+    fetchMovies();
+  }, []);
 
   const fetchMovies = () => {
     setIsLoading(true);
@@ -28,47 +28,46 @@ function App() {
       })
       .catch((error) => {
         setError(error);
-      }); setIsLoading(false)
+      });
+    setIsLoading(false);
   };
 
   function addMovieHandler(movie) {
-    console.log(movie)
+    fetch('https://react-http-project-6ee84-default-rtdb.europe-west1.firebasedatabase.app/movies.json', {
+      method: 'POST',
+      body: JSON.stringify(movie)
+    })
   }
 
-  let content = 'Found no movies'
+  let content = "Found no movies";
 
-  if (movies.length > 0) {
-    content =  <MoviesList movies={movies} />
+  if (movies === 'undefined') {
+    return null;
   }
+ 
+  /* if (movies.length > 0) {
+    content = <MoviesList movies={movies} />;
+  } */
 
   if (error) {
-    content = <p>{error.message}</p>
+    content = <p>{error.message}</p>;
   }
 
   if (isLoading) {
-    content = 'Loading...'
+    content = "Loading...";
   }
-
- 
- 
 
   return (
     <React.Fragment>
       <section>
-      <AddMovie onAddMovie={addMovieHandler}/>
+        <AddMovie onAddMovie={addMovieHandler} />
       </section>
       <section>
         <button onClick={fetchMovies}>Fetch Movies</button>
       </section>
-      <section>
-        {content}
-      </section>
+      <section>{content}</section>
     </React.Fragment>
   );
 }
 
 export default App;
-
- 
-
-  
