@@ -9,12 +9,12 @@ const MovieList = ({ movies }) => {
       {movies.map((movie) => (
         <Movie
           movie={movie}
-          key={movie.episode_id}
+          key={movie.id}
           title={movie.title}
-          producer={movie.producer}
-          releaseDate={movie.release_date}
-          openingText={movie.opening_crawl}
-          director={movie.director}
+          /* producer={movie.producer} */
+          releaseDate={movie.releaseDate}
+          openingText={movie.openingText}
+          /* director={movie.director} */
         />
       ))}
     </ul>

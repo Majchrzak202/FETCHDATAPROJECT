@@ -4,7 +4,7 @@ import "./App.css";
 import AddMovie from "./components/AddMovie";
 
 const api = {
-  base: 'https://react-http-project-6ee84-default-rtdb.europe-west1.firebasedatabase.app/movies.json' /* "https://swapi.dev/api/films/" */,
+  base: "https://react-http-project-6ee84-default-rtdb.europe-west1.firebasedatabase.app/movies.json" /*  "https://swapi.dev/api/films/" */,
 };
 
 function App() {
@@ -24,7 +24,18 @@ function App() {
         return response.json();
       })
       .then((data) => {
-        setMovies(data.results);
+        console.log(data);
+        const loadedMovies = [];
+
+        for (const key in data) {
+          loadedMovies.push({
+            id: key,
+            title: data[key].title,
+            releaseDate: data[key].releaseDate,
+            openingText: data[key].openingText,
+          });
+        }
+        setMovies(loadedMovies);
       })
       .catch((error) => {
         setError(error);
@@ -33,21 +44,31 @@ function App() {
   };
 
   function addMovieHandler(movie) {
-    fetch('https://react-http-project-6ee84-default-rtdb.europe-west1.firebasedatabase.app/movies.json', {
-      method: 'POST',
-      body: JSON.stringify(movie)
-    })
+    fetch(
+      "https://react-http-project-6ee84-default-rtdb.europe-west1.firebasedatabase.app/movies.json",
+      {
+        method: "POST",
+        body: JSON.stringify(movie),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {});
   }
 
   let content = "Found no movies";
 
-  if (movies === 'undefined') {
+  if (movies === "undefined") {
     return null;
   }
- 
-  /* if (movies.length > 0) {
+
+  if (movies.length > 0) {
     content = <MoviesList movies={movies} />;
-  } */
+  }
 
   if (error) {
     content = <p>{error.message}</p>;
