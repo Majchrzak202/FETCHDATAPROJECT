@@ -1,14 +1,37 @@
 import React, { useRef } from "react";
 
 import classes from "./AddMovie.module.css";
+import useFetch from "./hooks/useFetch";
 
 function AddMovie({ api }) {
   const titleRef = useRef("");
   const openingTextRef = useRef("");
   const releaseDateRef = useRef("");
 
+  
+
   function submitHandler(event) {
     event.preventDefault();
+
+    const addMovies = () => {
+      const movie = {
+        title: titleRef.current.value,
+        openingText: openingTextRef.current.value,
+        releaseDate: releaseDateRef.current.value,
+      };
+    }
+
+    const { isLoading, error, sendRequest } = useFetch(
+      {
+        url: api.base,
+        method: "POST",
+        body: JSON.stringify(movie),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+      addMovies
+    );
 
     const addMovieHandler = async () => {
       const movie = {
@@ -30,8 +53,7 @@ function AddMovie({ api }) {
         }
 
         const data = await response.json();
-        console.log(data)
-        
+        console.log(data);
       } catch (err) {}
     };
     addMovieHandler();
