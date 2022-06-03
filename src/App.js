@@ -3,6 +3,7 @@ import MoviesList from "./components/MoviesList";
 import "./App.css";
 import AddMovie from "./components/AddMovie";
 import useFetch from "./components/hooks/useFetch";
+import PostMovie from "./components/PostMovie";
 
 const api = {
   base: "https://react-http-project-6ee84-default-rtdb.europe-west1.firebasedatabase.app/movies.json" /*  "https://swapi.dev/api/films/" */,
@@ -18,7 +19,7 @@ function App() {
       loadedMovies.push({
         id: key,
         title: data[key].title,
-        relaseDate: data[key].relaseDate,
+        releaseDate: data[key].releaseDate,
         openingText: data[key].openingText,
       });
     }
@@ -59,23 +60,6 @@ function App() {
     } catch (err) {}
   };
 
-  /* function addMovieHandler(movie) {
-    fetch(
-      "https://react-http-project-6ee84-default-rtdb.europe-west1.firebasedatabase.app/movies.json",
-      {
-        method: "POST",
-        body: JSON.stringify(movie),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {});
-  } */
-
   let content = "Found no movies";
 
   if (movies === "undefined") {
@@ -97,7 +81,7 @@ function App() {
   return (
     <React.Fragment>
       <section>
-        <AddMovie onAddMovie={addMovieHandler} />
+        <PostMovie addMovieHandler={addMovieHandler} />
       </section>
       <section>
         <button onClick={fetchMovies}>Fetch Movies</button>

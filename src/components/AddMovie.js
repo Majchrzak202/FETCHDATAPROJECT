@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 
 import classes from './AddMovie.module.css';
 
-function AddMovie(props) {
+function AddMovie({addMovieHandler}) {
   const titleRef = useRef('');
   const openingTextRef = useRef('');
   const releaseDateRef = useRef('');
@@ -10,7 +10,7 @@ function AddMovie(props) {
   function submitHandler(event) {
     event.preventDefault();
 
-    // could add validation here...
+    
 
     const movie = {
       title: titleRef.current.value,
@@ -18,7 +18,7 @@ function AddMovie(props) {
       releaseDate: releaseDateRef.current.value,
     };
 
-    props.onAddMovie(movie);
+    addMovieHandler(movie);
   }
 
   return (
