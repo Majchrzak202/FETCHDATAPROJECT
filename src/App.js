@@ -41,69 +41,25 @@ function App() {
     fetchMovies();
   }, []);
 
-<<<<<<< HEAD
-  console.log(error);
-=======
-  const fetchMovies = async () => {
-    setIsLoading(true);
-    setError(null);
+  const addMovieHandler = async (movie) => {
     try {
-      const response = await fetch(api.base);
+      const response = await fetch(api.base, {
+        method: "POST",
+        body: JSON.stringify(movie),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Request failed!");
       }
-      const data = await response.json()
-      console.log(data)
 
-      const loadedMovies = [];
-
-      for (const key in data) {
-        loadedMovies.push({
-          id: key,
-          title: data[key].title,
-          relaseDate: data[key].relaseDate,
-          openingText: data[key].openingText
-        })
-      }
-
-      setMovies(loadedMovies)
-
-    } catch (err) {
-      setError(err.message)
-    }
-    setIsLoading(false)
+      const data = await response.json();
+    } catch (err) {}
   };
 
-  /* const fetchMovies = () => {
-    setIsLoading(true);
-    setError(null);
-    fetch(api.base)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        const loadedMovies = [];
-
-        for (const key in data) {
-          loadedMovies.push({
-            id: key,
-            title: data[key].title,
-            releaseDate: data[key].releaseDate,
-            openingText: data[key].openingText,
-          });
-        }
-        setMovies(loadedMovies);
-      })
-      .catch((error) => {
-        setError(error);
-      });
-    setIsLoading(false);
-  }; */
->>>>>>> master
-
-  function addMovieHandler(movie) {
+  /* function addMovieHandler(movie) {
     fetch(
       "https://react-http-project-6ee84-default-rtdb.europe-west1.firebasedatabase.app/movies.json",
       {
@@ -118,7 +74,7 @@ function App() {
         return response.json();
       })
       .then((data) => {});
-  }
+  } */
 
   let content = "Found no movies";
 
