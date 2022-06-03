@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MoviesList from "./components/MoviesList";
 import "./App.css";
 import AddMovie from "./components/AddMovie";
+import useFetch from "./components/hooks/useFetch";
 
 const api = {
   base: "https://react-http-project-6ee84-default-rtdb.europe-west1.firebasedatabase.app/movies.json" /*  "https://swapi.dev/api/films/" */,
@@ -9,39 +10,38 @@ const api = {
 
 function App() {
   const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+
+  const getMovies = (data) => {
+    const loadedMovies = [];
+
+    for (const key in data) {
+      loadedMovies.push({
+        id: key,
+        title: data[key].title,
+        relaseDate: data[key].relaseDate,
+        openingText: data[key].openingText,
+      });
+    }
+
+    setMovies(loadedMovies);
+  };
+
+  const {
+    isLoading,
+    error,
+    sendRequest: fetchMovies,
+  } = useFetch(
+    {
+      url: api.base,
+    },
+    getMovies
+  );
 
   useEffect(() => {
     fetchMovies();
   }, []);
 
-  const fetchMovies = () => {
-    setIsLoading(true);
-    setError(null);
-    fetch(api.base)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        const loadedMovies = [];
-
-        for (const key in data) {
-          loadedMovies.push({
-            id: key,
-            title: data[key].title,
-            releaseDate: data[key].releaseDate,
-            openingText: data[key].openingText,
-          });
-        }
-        setMovies(loadedMovies);
-      })
-      .catch((error) => {
-        setError(error);
-      });
-    setIsLoading(false);
-  };
+  console.log(error);
 
   function addMovieHandler(movie) {
     fetch(
