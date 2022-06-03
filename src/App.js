@@ -41,7 +41,67 @@ function App() {
     fetchMovies();
   }, []);
 
+<<<<<<< HEAD
   console.log(error);
+=======
+  const fetchMovies = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(api.base);
+
+      if (!response.ok) {
+        throw new Error("Request failed!");
+      }
+      const data = await response.json()
+      console.log(data)
+
+      const loadedMovies = [];
+
+      for (const key in data) {
+        loadedMovies.push({
+          id: key,
+          title: data[key].title,
+          relaseDate: data[key].relaseDate,
+          openingText: data[key].openingText
+        })
+      }
+
+      setMovies(loadedMovies)
+
+    } catch (err) {
+      setError(err.message)
+    }
+    setIsLoading(false)
+  };
+
+  /* const fetchMovies = () => {
+    setIsLoading(true);
+    setError(null);
+    fetch(api.base)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        const loadedMovies = [];
+
+        for (const key in data) {
+          loadedMovies.push({
+            id: key,
+            title: data[key].title,
+            releaseDate: data[key].releaseDate,
+            openingText: data[key].openingText,
+          });
+        }
+        setMovies(loadedMovies);
+      })
+      .catch((error) => {
+        setError(error);
+      });
+    setIsLoading(false);
+  }; */
+>>>>>>> master
 
   function addMovieHandler(movie) {
     fetch(
