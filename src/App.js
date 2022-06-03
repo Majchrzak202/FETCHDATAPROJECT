@@ -18,7 +18,7 @@ function App() {
       loadedMovies.push({
         id: key,
         title: data[key].title,
-        relaseDate: data[key].relaseDate,
+        releaseDate: data[key].releaseDate,
         openingText: data[key].openingText,
       });
     }
@@ -40,8 +40,9 @@ function App() {
   useEffect(() => {
     fetchMovies();
   }, []);
+  
 
-  const addMovieHandler = async (movie) => {
+  /* const addMovieHandler = async (movie) => {
     try {
       const response = await fetch(api.base, {
         method: "POST",
@@ -57,7 +58,7 @@ function App() {
 
       const data = await response.json();
     } catch (err) {}
-  };
+  }; */
 
   /* function addMovieHandler(movie) {
     fetch(
@@ -97,7 +98,7 @@ function App() {
   return (
     <React.Fragment>
       <section>
-        <AddMovie onAddMovie={addMovieHandler} />
+        <AddMovie api={api} />
       </section>
       <section>
         <button onClick={fetchMovies}>Fetch Movies</button>
