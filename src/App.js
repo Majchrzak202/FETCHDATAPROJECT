@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import MoviesList from "./components/MoviesList";
 import "./App.css";
-import AddMovie from "./components/AddMovie";
 import useFetch from "./components/hooks/useFetch";
+/* import PostMovie from "./components/PostMovie"; */
 
 const api = {
   base: "https://react-http-project-6ee84-default-rtdb.europe-west1.firebasedatabase.app/movies.json" /*  "https://swapi.dev/api/films/" */,
@@ -11,70 +11,30 @@ const api = {
 function App() {
   const [movies, setMovies] = useState([]);
 
-  const getMovies = (data) => {
-    const loadedMovies = [];
+  
 
-    for (const key in data) {
-      loadedMovies.push({
-        id: key,
-        title: data[key].title,
-        relaseDate: data[key].relaseDate,
-        openingText: data[key].openingText,
-      });
-    }
-
-    setMovies(loadedMovies);
-  };
-
-  const {
-    isLoading,
-    error,
-    sendRequest: fetchMovies,
-  } = useFetch(
-    {
-      url: api.base,
-    },
-    getMovies
-  );
+  const { isLoading, error, sendRequest: fetchMovies } = useFetch();
 
   useEffect(() => {
-    fetchMovies();
-  }, []);
-
-  const addMovieHandler = async (movie) => {
-    try {
-      const response = await fetch(api.base, {
-        method: "POST",
-        body: JSON.stringify(movie),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Request failed!");
+    const getMovies = (data) => {
+      const loadedMovies = [];
+  
+      for (const key in data) {
+        loadedMovies.push({
+          id: key,
+          title: data[key].title,
+          releaseDate: data[key].releaseDate,
+          openingText: data[key].openingText,
+        });
       }
+  
+      setMovies(loadedMovies);
+    };
 
-      const data = await response.json();
-    } catch (err) {}
-  };
-
-  /* function addMovieHandler(movie) {
-    fetch(
-      "https://react-http-project-6ee84-default-rtdb.europe-west1.firebasedatabase.app/movies.json",
-      {
-        method: "POST",
-        body: JSON.stringify(movie),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {});
-  } */
+    fetchMovies({
+      url: api.base,
+    },getMovies);
+  }, [fetchMovies]);
 
   let content = "Found no movies";
 
@@ -97,7 +57,7 @@ function App() {
   return (
     <React.Fragment>
       <section>
-        <AddMovie onAddMovie={addMovieHandler} />
+      {/*   <PostMovie api={api} /> */}
       </section>
       <section>
         <button onClick={fetchMovies}>Fetch Movies</button>
