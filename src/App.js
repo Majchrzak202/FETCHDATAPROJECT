@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MoviesList from "./components/MoviesList";
 import "./App.css";
 import useFetch from "./components/hooks/useFetch";
-/* import PostMovie from "./components/PostMovie"; */
+import PostMovie from "./components/PostMovie";
 
 const api = {
   base: "https://react-http-project-6ee84-default-rtdb.europe-west1.firebasedatabase.app/movies.json" /*  "https://swapi.dev/api/films/" */,
@@ -11,14 +11,12 @@ const api = {
 function App() {
   const [movies, setMovies] = useState([]);
 
-  
-
   const { isLoading, error, sendRequest: fetchMovies } = useFetch();
 
   useEffect(() => {
     const getMovies = (data) => {
       const loadedMovies = [];
-  
+
       for (const key in data) {
         loadedMovies.push({
           id: key,
@@ -27,13 +25,16 @@ function App() {
           openingText: data[key].openingText,
         });
       }
-  
+
       setMovies(loadedMovies);
     };
 
-    fetchMovies({
-      url: api.base,
-    },getMovies);
+    fetchMovies(
+      {
+        url: api.base,
+      },
+      getMovies
+    );
   }, [fetchMovies]);
 
   let content = "Found no movies";
@@ -57,7 +58,7 @@ function App() {
   return (
     <React.Fragment>
       <section>
-      {/*   <PostMovie api={api} /> */}
+        <PostMovie api={api} />
       </section>
       <section>
         <button onClick={fetchMovies}>Fetch Movies</button>
